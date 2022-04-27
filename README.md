@@ -3,6 +3,6 @@
 
 ## Confusion Matrix
 
-<img src="confusion_matrix.png" width="800px"/>
+<img src="confusion_matrix.png" width="400px"/>
 
 Note: This work was done during Jan-Apr 2022 as a part of MS(R) thesis work under Prof. Gaurav Sharma
