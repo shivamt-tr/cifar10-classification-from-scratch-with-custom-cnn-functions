@@ -114,9 +114,10 @@ torch.save(net.state_dict(), 'cifar_net.pth')  # save model
 
 dataiter = iter(testloader)
 images, labels = dataiter.next()
+images = images.to(device)
 
 # print images
-imshow(make_grid(images))
+imshow(make_grid(images.cpu()))
 print('GroundTruth: ', ' '.join(f'{classes[labels[j]]:5s}' for j in range(4)))
 
 net.load_state_dict(torch.load('cifar_net.pth'))
@@ -163,7 +164,7 @@ prediction_labels = np.array((), dtype=int)
 # again no gradients needed
 with torch.no_grad():
     for data in testloader:
-        images, labels = data
+        images, labels = data[0].to(device), data[1].to(device)
         outputs = net(images)
         _, predictions = torch.max(outputs, 1)
         # collect the correct predictions for each class
@@ -172,8 +173,8 @@ with torch.no_grad():
                 correct_pred[classes[label]] += 1
             total_pred[classes[label]] += 1
         # append labels and predictions to the list
-        data_labels = np.append(data_labels, labels.numpy())
-        prediction_labels = np.append(prediction_labels, predictions.numpy())
+        data_labels = np.append(data_labels, labels.cpu().numpy())
+        prediction_labels = np.append(prediction_labels, predictions.cpu().numpy())
 
 # print accuracy for each class
 for classname, correct_count in correct_pred.items():
